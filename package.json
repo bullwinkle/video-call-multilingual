@@ -2,7 +2,10 @@
   "name": "@video-call-multilingual/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "build": "npx --yes nx run video-call-multilingual-backend:build:production",
+    "start": "node dist/apps/video-call-multilingual-backend/main.js"
+  },
   "private": true,
   "dependencies": {
     "@angular/animations": "~18.0.0",
@@ -19,6 +22,7 @@
     "express": "~4.18.2",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
+    "ws": "^8.18.0",
     "zone.js": "~0.14.3"
   },
   "devDependencies": {

@@ -1,5 +1,5 @@
 // server.js
-import WebSocket from 'ws';
+import * as WebSocket from 'ws';
 import fs from 'fs';
 import https from 'https';
 
