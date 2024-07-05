@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "build": "npx --yes nx run video-call-multilingual-backend:build:production",
-    "start": "node dist/apps/video-call-multilingual-backend/main.js"
+    "build:be": "npx --yes nx run video-call-multilingual-backend:build:production",
+    "start:be": "node dist/apps/video-call-multilingual-backend/main.js"
   },
   "private": true,
   "dependencies": {
