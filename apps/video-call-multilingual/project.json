@@ -22,12 +22,7 @@
           }
         ],
         "styles": ["apps/video-call-multilingual/src/styles.css"],
-        "scripts": [],
-        "server": "apps/video-call-multilingual/src/main.server.ts",
-        "prerender": true,
-        "ssr": {
-          "entry": "apps/video-call-multilingual/server.ts"
-        }
+        "scripts": []
       },
       "configurations": {
         "production": {
