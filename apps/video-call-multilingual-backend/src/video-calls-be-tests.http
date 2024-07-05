@@ -1,5 +1,5 @@
 ### GET request to example server
-WEBSOCKET ws://localhost:8080
+WEBSOCKET wss://video-call-multilingual.onrender.com/
 Content-Type: application/json // We use it for highlighting
 
 ===

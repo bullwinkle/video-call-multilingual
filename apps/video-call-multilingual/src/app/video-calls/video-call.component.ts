@@ -28,7 +28,8 @@ export class VideoCallComponent implements OnInit {
   localStream!: MediaStream;
   peerConnection!: RTCPeerConnection;
   signalingServer = webSocket({
-    url: `wss://${HOST}`,
+    // url: `wss://${HOST}`,
+    url: `wss://video-call-multilingual.onrender.com`,
   });
 
   ngOnInit() {
