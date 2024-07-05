@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "build:fe": "npx --yes nx run video-call-multilingual:build:production",
-    "build:be": "npx --yes nx run video-call-multilingual-backend:build:production",
+    "build:fe": "npx --yes nx run video-call-multilingual:build:production --verbose",
+    "build:be": "npx --yes nx run video-call-multilingual-backend:build:production --verbose",
     "start:be": "node dist/apps/video-call-multilingual-backend/main.js"
   },
   "private": true,
@@ -20,7 +20,6 @@
     "@angular/router": "~18.0.0",
     "@angular/ssr": "~18.0.0",
     "@nx/angular": "19.4.0",
-    "express": "~4.18.2",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "ws": "^8.18.0",
