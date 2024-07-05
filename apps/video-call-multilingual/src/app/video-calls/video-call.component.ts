@@ -29,7 +29,7 @@ export class VideoCallComponent implements OnInit {
   peerConnection!: RTCPeerConnection;
   signalingServer = webSocket({
     // url: `wss://${HOST}`,
-    url: `wss://video-call-multilingual.onrender.com`,
+    url: `wss://video-call-multilingual-be.onrender.com`,
   });
 
   ngOnInit() {
