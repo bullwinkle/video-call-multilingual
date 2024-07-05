@@ -41,6 +41,11 @@
           "codeCoverage": true
         }
       }
+    },
+    "@nx/esbuild:esbuild": {
+      "cache": true,
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"]
     }
   },
   "generators": {
@@ -49,7 +54,18 @@
       "linter": "eslint",
       "style": "css",
       "unitTestRunner": "jest"
+    },
+    "@nx/angular:component": {
+      "style": "css",
+      "skipTests": true
     }
   },
-  "nxCloudAccessToken": "MGQ2NTI3ZjAtMDI1Yy00MDBkLWJmOTItYzI1OTBmMGRmMzE0fHJlYWQtd3JpdGU="
+  "plugins": [
+    {
+      "plugin": "@nx/eslint/plugin",
+      "options": {
+        "targetName": "eslint:lint"
+      }
+    }
+  ]
 }

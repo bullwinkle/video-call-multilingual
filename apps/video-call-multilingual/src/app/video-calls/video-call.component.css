@@ -1,0 +1,15 @@
+.videos {
+  display: flex;
+}
+
+.video {
+  width: 50%;
+}
+
+.actions {
+  padding: 20px;
+}
+
+.actions > * {
+  margin: 10px;
+}

@@ -1,0 +1,56 @@
+{
+  "name": "video-call-multilingual-backend",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/video-call-multilingual-backend/src",
+  "projectType": "application",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/esbuild:esbuild",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "platform": "node",
+        "outputPath": "dist/apps/video-call-multilingual-backend",
+        "format": ["cjs"],
+        "bundle": false,
+        "main": "apps/video-call-multilingual-backend/src/main.ts",
+        "tsConfig": "apps/video-call-multilingual-backend/tsconfig.app.json",
+        "assets": ["apps/video-call-multilingual-backend/src/assets"],
+        "generatePackageJson": true,
+        "esbuildOptions": {
+          "sourcemap": true,
+          "outExtension": {
+            ".js": ".js"
+          }
+        }
+      },
+      "configurations": {
+        "development": {},
+        "production": {
+          "esbuildOptions": {
+            "sourcemap": false,
+            "outExtension": {
+              ".js": ".js"
+            }
+          }
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "video-call-multilingual-backend:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "video-call-multilingual-backend:build:development"
+        },
+        "production": {
+          "buildTarget": "video-call-multilingual-backend:build:production"
+        }
+      }
+    }
+  }
+}

@@ -63,7 +63,14 @@
           "buildTarget": "video-call-multilingual:build:development"
         }
       },
-      "defaultConfiguration": "development"
+      "defaultConfiguration": "development",
+      "options": {
+        "proxyConfig": "apps/video-call-multilingual/proxy.conf.json",
+        "host": "0.0.0.0",
+        "ssl": true,
+        "sslKey": "localhost.key",
+        "sslCert": "localhost.crt"
+      }
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
