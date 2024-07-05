@@ -3,9 +3,9 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "nx:reset": "npx --yes nx reset",
-    "build:fe": "npm run nx:reset && npx --yes nx run video-call-multilingual:build:production --verbose",
-    "build:be": "npm run nx:reset && npx --yes nx run video-call-multilingual-backend:build:production --verbose",
+    "nx:reset": "nx reset",
+    "build:fe": "nx run video-call-multilingual:build:production --verbose",
+    "build:be": "nx run video-call-multilingual-backend:build:production --verbose",
     "start:be": "node dist/apps/video-call-multilingual-backend/main.js"
   },
   "private": true,
