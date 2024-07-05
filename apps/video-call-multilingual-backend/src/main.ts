@@ -1,23 +1,9 @@
-import * as WebSocket from 'ws';
-import {rawMessageToString} from "./utils";
+import * as process from "node:process";
 
-const wss = new WebSocket.Server({port: 8080});
+const IS_PRODUCTION = process.env.NODE_ENV === 'production';
+console.log(IS_PRODUCTION, process.env.NODE_ENV);
 
-wss.on('connection', (ws) => {
-  console.log('connection', ws);
-  ws.on('message', (message: Buffer | ArrayBuffer | Buffer[], isBinary) => {
-
-    const messageString = rawMessageToString(message);
-
-    console.log('messageString', messageString);
-
-    wss.clients.forEach((client) => {
-      if (client !== ws && client.readyState === WebSocket.OPEN) {
-        client.send(messageString);
-      }
-    });
-  });
-});
-
-
-console.log(`Signaling server is running`);
+(IS_PRODUCTION
+    ? import('./run-production.js')
+    : import('./run-development.js')
+).then(({run}) => run());
