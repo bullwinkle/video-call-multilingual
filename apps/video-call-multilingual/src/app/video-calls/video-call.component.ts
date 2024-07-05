@@ -42,7 +42,18 @@ export class VideoCallComponent implements OnInit {
     this.localStream = await navigator.mediaDevices.getUserMedia({video: true, audio: true});
     this.localVideo.nativeElement.srcObject = this.localStream;
 
-    this.peerConnection = new RTCPeerConnection();
+    this.peerConnection = new RTCPeerConnection({
+      iceServers: [
+        { urls: 'stun:stun.l.google.com:19302' },
+        { urls: 'stun:stun1.l.google.com:19302' },
+        { urls: 'stun:stun2.l.google.com:19302' },
+        // {
+        //   urls: 'turn:TURN_SERVER_URL',
+        //   username: 'TURN_SERVER_USERNAME',
+        //   credential: 'TURN_SERVER_CREDENTIAL'
+        // }
+      ]
+    });
 
     this.localStream.getTracks().forEach(track => this.peerConnection.addTrack(track, this.localStream));
 
@@ -70,7 +81,7 @@ export class VideoCallComponent implements OnInit {
         if (this.peerConnection.remoteDescription?.type === 'offer') {
           const answer = await this.peerConnection.createAnswer();
           await this.peerConnection.setLocalDescription(answer);
-          this.signalingServer.next(JSON.stringify({sdp: this.peerConnection.localDescription}));
+          this.signalingServer.next(JSON.stringify({sdp: this.peerConnection.localDescription?.toJSON()}));
         }
       } else if (data.candidate) {
         const candidate = new RTCIceCandidate(data.candidate);
