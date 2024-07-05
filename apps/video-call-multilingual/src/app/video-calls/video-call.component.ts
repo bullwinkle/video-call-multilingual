@@ -1,8 +1,8 @@
 import {Component, ElementRef, OnInit, signal, ViewChild} from '@angular/core';
 import {webSocket} from 'rxjs/webSocket';
 import {CommonModule} from "@angular/common";
+import {ICE_SERVER_LIST} from './stun-server-list';
 
-const HOST = typeof window !== 'undefined' && window.location.hostname;
 
 @Component({
   selector: 'app-video-call',
@@ -16,7 +16,6 @@ const HOST = typeof window !== 'undefined' && window.location.hostname;
     </div>
     <div class="actions">
       <button (click)="startCall()">Start Call</button>
-      <button (click)="answerCall()">Answer Call</button>
     </div>
   `
 })
@@ -26,6 +25,7 @@ export class VideoCallComponent implements OnInit {
 
   isInitialized = signal(false);
   localStream!: MediaStream;
+  remoteStream!: MediaStream;
   peerConnection!: RTCPeerConnection;
   signalingServer = webSocket({
     // url: `wss://${HOST}`,
@@ -39,28 +39,29 @@ export class VideoCallComponent implements OnInit {
   async initWebRTC() {
     if (!navigator.mediaDevices || !window?.RTCPeerConnection) return;
 
+    this.peerConnection = new RTCPeerConnection({
+      iceServers: ICE_SERVER_LIST
+    });
+
     this.localStream = await navigator.mediaDevices.getUserMedia({video: true, audio: true});
     this.localVideo.nativeElement.srcObject = this.localStream;
 
-    this.peerConnection = new RTCPeerConnection({
-      iceServers: [
-        { urls: 'stun:stun.l.google.com:19302' },
-        { urls: 'stun:stun1.l.google.com:19302' },
-        { urls: 'stun:stun2.l.google.com:19302' },
-        // {
-        //   urls: 'turn:TURN_SERVER_URL',
-        //   username: 'TURN_SERVER_USERNAME',
-        //   credential: 'TURN_SERVER_CREDENTIAL'
-        // }
-      ]
-    });
+    this.remoteStream = new MediaStream();
+    this.remoteVideo.nativeElement.srcObject = this.remoteStream;
 
     this.localStream.getTracks().forEach(track => this.peerConnection.addTrack(track, this.localStream));
 
     this.peerConnection.ontrack = (event) => {
       console.log('track', event);
-      this.remoteVideo.nativeElement.srcObject = event.streams[0];
+      // this.remoteVideo.nativeElement.srcObject = event.streams[0];
+
+      const [stream] = event.streams;
+
+      stream.getTracks().forEach((track) => {
+        this.remoteStream.addTrack(track);
+      });
     };
+
 
     this.peerConnection.onicecandidate = (event) => {
       console.log('icecandidate', event);
@@ -102,9 +103,5 @@ export class VideoCallComponent implements OnInit {
     console.log('message to send', message);
 
     this.signalingServer.next(JSON.stringify(message));
-  }
-
-  answerCall() {
-    // No additional code needed here, logic is handled in signalingServer subscription
   }
 }
