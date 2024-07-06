@@ -1,6 +1,6 @@
 import {Component, ElementRef, OnInit, signal, ViewChild} from '@angular/core';
 import {webSocket} from 'rxjs/webSocket';
-import {CommonModule} from "@angular/common";
+import {CommonModule} from '@angular/common';
 import {ICE_SERVER_LIST} from './stun-server-list';
 
 
@@ -11,17 +11,17 @@ import {ICE_SERVER_LIST} from './stun-server-list';
   styleUrl: './video-call.component.css',
   template: `
     <div class="videos">
-      <video class="video" #localVideo autoplay playsinline></video>
-      <video class="video" #remoteVideo autoplay playsinline></video>
+      <video class="video video--local" #localVideo autoplay playsinline [muted]="'muted'"></video>
+      <video class="video video--remote" #remoteVideo autoplay playsinline controls></video>
     </div>
     <div class="actions">
-      <button (click)="startCall()">Start Call</button>
+      <button class="action action--start-call" (click)="startCall()">Start Call</button>
     </div>
   `
 })
 export class VideoCallComponent implements OnInit {
-  @ViewChild('localVideo') localVideo!: ElementRef<HTMLVideoElement>;
-  @ViewChild('remoteVideo') remoteVideo!: ElementRef<HTMLVideoElement>;
+  @ViewChild('localVideo', {static: true}) localVideo!: ElementRef<HTMLVideoElement>;
+  @ViewChild('remoteVideo', {static: true}) remoteVideo!: ElementRef<HTMLVideoElement>;
 
   isInitialized = signal(false);
   localStream!: MediaStream;
@@ -47,19 +47,21 @@ export class VideoCallComponent implements OnInit {
     this.localVideo.nativeElement.srcObject = this.localStream;
 
     this.remoteStream = new MediaStream();
-    this.remoteVideo.nativeElement.srcObject = this.remoteStream;
 
     this.localStream.getTracks().forEach(track => this.peerConnection.addTrack(track, this.localStream));
 
     this.peerConnection.ontrack = (event) => {
       console.log('track', event);
-      // this.remoteVideo.nativeElement.srcObject = event.streams[0];
+
+      this.remoteStream.getTracks().forEach(track => this.remoteStream.removeTrack(track));
 
       const [stream] = event.streams;
 
       stream.getTracks().forEach((track) => {
         this.remoteStream.addTrack(track);
       });
+
+      this.remoteVideo.nativeElement.srcObject = this.remoteStream;
     };
 
 

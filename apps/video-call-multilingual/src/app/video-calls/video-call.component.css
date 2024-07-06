@@ -1,15 +1,55 @@
 .videos {
+  position: relative;
   display: flex;
-}
 
-.video {
-  width: 50%;
+  .video {
+    border-radius: 5px;
+
+    &.video--remote {
+      width: 90vw;
+      height: auto;
+      max-width: 80vw;
+      max-height: 80vh;
+    }
+
+    &.video--local {
+      position: absolute;
+      top: 0px;
+      right: 0px;
+      width: 15%;
+      z-index: 10;
+      border: 3px solid rgba(0,0,0,0.5);
+      opacity: 0.6;
+      box-shadow: -2px 4px 11px -3px rgba(0,0,0,0.4);
+      transition: opacity .2s ease-in-out, width .2s ease-in-out;
+
+      &:hover {
+        opacity: 1;
+        width: 55%;
+      }
+    }
+  }
 }
 
 .actions {
   padding: 20px;
+  text-align: center;
+
+  & > * {
+    margin: 10px;
+  }
 }
 
-.actions > * {
+.action {
   margin: 10px;
+  text-transform: uppercase;
+  font-weight: 500;
+  padding: 10px 24px;
+  border-radius: 4px;
+  font-size: 24px;
+  color: #111111;
+
+  &.action--start-call {
+    background: #c4fdc4;
+  }
 }
